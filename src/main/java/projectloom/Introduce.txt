@@ -1,0 +1,49 @@
+1.Đa luồng trong Java và các vấn đề hiện tại
+    - Đa luồng là một kỹ thuật lập trình cho phép nhiều luồng thực thi đồng thời trong cùng một ứng dụng
+    - Mỗi luồng là một đơn vị thực thi độc lập, có khả năng chạy song song với các luồng khác
+    - Trong Java, đa luồng được hỗ trợ thông qua lớp Thread và giao diện Runnable.
+    - Lập trình viên có thể tạo các luồng mới bằng cách kế thừa lớp Thread hoặc triển khai giao diện Runnable.
+
+2.Vấn đề và hạn chế của lập trình đa luồng truyền thống
+    - Hiệu năng: Khi số lượng luồng tăng lên, hiệu năng của ứng dụng không tăng tuyến tính.
+Nguyên nhân là do các luồng phải chia sẻ tài nguyên phần cứng, đồng thời việc quản lý và lập lịch các luồng cũng gây ra chi phí thời gian CPU.
+Điều này dẫn đến việc tăng số lượng luồng không đồng nghĩa với việc tăng hiệu năng đáng kể.
+    - Khả năng mở rộng: Trong các ứng dụng phức tạp, việc quản lý số lượng lớn luồng gây ra khó khăn trong việc đảm bảo khả năng mở rộng.
+Các vấn đề về đồng bộ hóa, tài nguyên hạn chế và deadlock có thể xảy ra, khiến cho ứng dụng trở nên khó phát triển và duy trì.
+    - Độ phức tạp của mã nguồn: Việc lập trình đa luồng đòi hỏi lập trình viên phải xử lý nhiều vấn đề liên quan đến đồng bộ hóa,
+tránh xung đột tài nguyên và giải quyết các vấn đề deadlock.Điều này làm tăng độ phức tạp của mã nguồn và gây khó khăn cho việc bảo trì và mở rộng ứng dụng.
+
+3.Cơ chế hoạt động của Project Loom
+    - Project Loom giới thiệu một số cải tiến và cấu trúc mới để giúp đơn giản hóa việc lập trình đa luồng và cải thiện hiệu năng của ứng dụng Java.
+    - Các thành phần chính của Project Loom bao gồm Virtual Threads (Fibers) và Continuations.
+
+    *Virtual Threads (Fibers)
+    - Virtual Threads, còn được gọi là Fibers, là một khái niệm mới giúp giảm độ phức tạp và tăng hiệu năng của lập trình đa luồng
+    - Virtual Threads được quản lý bởi JVM (Java Virtual Machine) thay vì hệ điều hành, giúp giảm thiểu chi phí liên quan đến việc tạo, lập lịch và chuyển đổi giữa các luồng.
+    - Một ưu điểm quan trọng của Virtual Threads là khả năng mở rộng. Vì chi phí quản lý luồng giảm đáng kể, ứng dụng có thể tạo và quản lý rất nhiều Virtual Threads mà không làm suy giảm hiệu năng
+    - Điều này giúp tận dụng tối đa nguồn lực phần cứng và cải thiện khả năng mở rộng của ứng dụng
+
+    *Continuations
+    - Continuations là một cấu trúc dữ liệu giúp lưu trữ trạng thái của một đoạn code đang thực thi
+    - Continuations cho phép một đoạn code tạm dừng thực thi và sau đó tiếp tục từ điểm đã dừng trước đó.
+    - Điều này cho phép các Virtual Threads tạm dừng và tiếp tục mà không làm tốn chi phí quá nhiều.
+
+    *Cách hoạt động để cải thiện hiệu năng đa luồng
+    - Project Loom kết hợp các khái niệm Virtual Threads và Continuations để cải thiện hiệu năng đa luồng trong Java.
+    - Thay vì sử dụng các luồng hệ điều hành truyền thống, Project Loom sử dụng các Virtual Threads nhẹ nhàng hơn, giúp giảm chi phí và tăng hiệu năng
+    - Các Continuations giúp lưu trữ trạng thái của các đoạn mã, cho phép tạm dừng và tiếp tục thực thi mà không cần đợi tài nguyên phần cứng.
+    - Kết quả là việc lập trình đa luồng trở nên dễ dàng hơn, hiệu năng được cải thiện và khả năng mở rộng của ứng dụng được tăng lên đáng kể.
+
+4. Ưu điểm của việc sử dụng Project Loom
+    - Hiệu năng cao hơn
+    - Đơn giản hóa mã nguồn
+    - Khả năng mở rộng cao hơn
+
+5. Cách tích hợp Project Loom vào dự án Java hiện tại
+    * 5.1. Cài đặt JDK phiên bản hỗ trợ Project Loom
+    * 5.2. Cập nhật mã nguồn
+        - Thay thế các đoạn mã tạo và quản lý luồng truyền thống bằng cách sử dụng Virtual Threads.
+        Điều này có thể đạt được bằng cách sử dụng API của Project Loom, chẳng hạn như Thread.builder().virtual().start(Runnable)
+        hoặc ExecutorService.newVirtualThreadExecutor()
+        - Kiểm tra và cập nhật mã nguồn liên quan đến xử lý đồng bộ hóa, bởi vì Project Loom giúp giảm bớt các vấn đề liên quan đến đồng bộ hóa.
+    *5.3. Kiểm tra và tối ưu hóa

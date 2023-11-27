@@ -1,0 +1,11 @@
+Ở version này, đem đến nhiều method mới hữu ích:
+1.Các method mới dành cho Emoj:
+    isEmoji(int codePoint)
+    isEmojiComponent(int codePoint)
+    isEmojiModifier(int codePoint)
+    isEmojiModifierBase(int codePoint)
+    isEmojiPresentation(int codePoint)
+    isExtendedPictographic(int codePoint)
+2. String.indexOf(String str, int beginIndex, int endIndex): Tìm kiếm chuỗi trong khoảng index chỉ định
+   String.indexOf(char ch, int beginIndex, int endIndex): Tìm kiễm kí tự trong khoảng index chỉ định
+   String.splitWithDelimiters(String regex, int limit): Chia cắt chuỗi bằng regex với số lần chỉ định
